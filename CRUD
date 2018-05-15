@@ -1,0 +1,68 @@
+mongod --directoryperdb --dbpath "C:\MongoDB\data\db" --logpath "C:\MongoDB\log\mongo.log" --logappend --install
+
+net start MongoDB
+
+mongo				-->Mongo shell
+
+show dbs			-->Show all DB
+
+use employees		-->Create or switch DB
+
+db					-->Current DB
+
+show users
+
+db.createUser({
+	user:"p2", 
+	pwd:"p2", 
+	roles: ["readWrite", "dbAdmin"]
+});					-->Create User
+
+db.createCollection('employee');		-->Similar to RDBMS collection and document similar to RDBMS row
+
+show collections
+
+db.employee.insert([
+	{
+		f_name: "b",
+		l_name: "pintu",
+		age: 28,
+		address: {
+			state: "karnataka",
+			city: "bangalore",
+			country: "india"
+		}
+	},
+	{
+		f_name: "bruce",
+		l_name: "wayne",
+		age: 28,
+		address: {			
+			city: "gotham"
+		},
+		profession: "batman",
+		status: "complicated"
+	}
+])
+
+db.employee.find().pretty()
+
+db.employee.find(
+	{
+		$and: [
+			{f_name: "b"},
+			{"address.city": "bangalore"}
+		]
+	}
+).pretty()
+
+db.employee.update(
+	{f_name: "b"},
+	{$set:{"address.country": "spain"}}
+)
+
+db.employee.remove(
+	{f_name: "b"}
+)
+
+net stop MongoDB
